@@ -14,7 +14,6 @@ class BooksController < ApplicationController
   def create
     @book = Book.new(book_params)
     if @book.save
-   #   book_user = UserBook.create(book: @book, user: current_user, have_or_want: @book.have_read)
       redirect_to books_path
     else
       render :new
