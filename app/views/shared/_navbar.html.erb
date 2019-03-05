@@ -13,8 +13,6 @@
 
       <!-- Links when logged in -->
       <%= link_to "Find a book", new_book_path, class: "navbar-wagon-item navbar-wagon-link" %>
-      <%= link_to "My Bookshelf", my_books_books_path, class: "navbar-wagon-item navbar-wagon-link" %>
-      <%= link_to "My Reading List", my_reading_list_books_path, class: "navbar-wagon-item navbar-wagon-link" %>
       <%= link_to "Library", books_path, class: "navbar-wagon-item navbar-wagon-link" %>
       <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "navbar-wagon-item navbar-wagon-link" %>
       <!-- Username with dropdown -->
@@ -38,8 +36,6 @@
       <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu">
       <% if user_signed_in? %>
         <li> <%= link_to "Find a book", new_book_path, class: "navbar-wagon-item navbar-wagon-link" %></li>
-        <li><%= link_to "My Bookshelf", my_books_books_path, class: "navbar-wagon-item navbar-wagon-link" %></li>
-        <li><%= link_to "My Reading List", my_reading_list_books_path, class: "navbar-wagon-item navbar-wagon-link" %></li>
         <li><%= link_to "Library", books_path, class: "navbar-wagon-item navbar-wagon-link" %></li>
         <li><%= link_to "Log out", destroy_user_session_path, method: :delete, class: "navbar-wagon-item navbar-wagon-link" %></li>
 
