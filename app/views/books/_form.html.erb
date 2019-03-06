@@ -1,4 +1,4 @@
-<%= form_for @book do |f| %>
+<%= simple_form_for @book do |f| %>
 
 <% if @book.errors.any? %>
 <ul>
@@ -7,9 +7,10 @@
   <% end %>
 </ul>
 <% end %>
-<%= f.label :title, "Enter title" %>
-<%= f.text_field :title %>
-<%= f.label :author, "Enter author" %>
-<%= f.text_field :author %>
+<%= f.input :title %>
+<%= f.input :author %>
+  <%= f.simple_fields_for :user_book_attributes do |ub| %>
+    <%= ub.input_field :have_read, as: :radio_buttons %>
+    <% end %>
 <%= f.submit %>
 <% end %>
