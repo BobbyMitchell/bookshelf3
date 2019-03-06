@@ -9,5 +9,8 @@
 <% end %>
 <%= f.input :title %>
 <%= f.input :author %>
+  <%= f.simple_fields_for :user_book_attributes do |ub| %>
+    <%= ub.input_field :have_read, as: :radio_buttons %>
+    <% end %>
 <%= f.submit %>
 <% end %>
