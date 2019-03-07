@@ -24,39 +24,8 @@ class BooksController < ApplicationController
 
   def create
     @book = Book.new(book_params)
-
-    #search_terms varible made as GoogleBooks.search won't except variables
-    search_terms = "inauthor:#{@book.author}, intitle:#{@book.title}, subject: 'Fiction' "
-    title = @book.title
-    google_books_objects = GoogleBooks.search(search_terms)
-
-    #Google books tends to ingnore subject so this removes non fiction
-    google_books = []
-    google_books_objects.each do |book|
-      if book.categories == "Fiction"
-        google_books << book
-      end
-    end
-
-    if google_books.empty?
-      flash.notice = "Couldn't find you're book, please try again."
-      redirect_to new_book_path
-    else
-
-    first_book = google_books.first
-
-    first_book.image_link(:zoom => 6)
-    # title and autors changed from search terms to prevent duplication. ie having Tolkien and J R Tolkien being differant authors
-    @book.title = first_book.title
-    @book.author = first_book.authors
-    #Finf the book if it exists with the same title and author, if not creates it.
-    @book = Book.where(title: @book.title, author: @book.author).first_or_create do |book|
-      book.photo_url = first_book.image_link
-      # book.description = first_book.description
-      # book.page_count = first_book.page_count
-      # book.isbn = first_book.isbn
-      # book.created_by = current_user.id
-    end
+    find_google_book
+    @google_book == nil ? cannot_find : assign_values
     if @book.save
       create_user_book
       redirect_to book_path(@book)
@@ -64,7 +33,6 @@ class BooksController < ApplicationController
       render :new
     end
   end
-end
 
   def edit
   end
@@ -76,6 +44,32 @@ end
   end
 
   private
+
+  def find_google_book
+    find_books.each do |book|
+      @google_book = book
+      break if book.categories == "Fiction"  # If this break statement is executed...
+    end
+  end
+
+  def find_books
+    search_terms = "inauthor:#{@book.author}, intitle:#{@book.title}, subject: 'Fiction' "
+    GoogleBooks.search(search_terms)
+  end
+
+  def cannot_find
+    flash.notice = "Couldn't find you're book, please try again."
+    redirect_to new_book_path
+  end
+
+  # Note - Search terms changed to google books results to avoid duplication due to miss spelling
+  def assign_values
+    @book.title = @google_book.title
+    @book.author = @google_book.authors
+    @book = Book.where(title: @book.title, author: @book.author).first_or_create do |book|
+      book.photo_url = @google_book.image_link
+    end
+  end
 
   def create_user_book
     @user_book = UserBook.new
@@ -92,5 +86,11 @@ end
   def find_book
     @book = Book.find(params[:id])
   end
-
 end
+    # first_book.image_link(:zoom => 6)
+    # title and autors changed from search terms to prevent duplication. ie having Tolkien and J R Tolkien being differant authors
+      # book.description = first_book.description
+      # book.page_count = first_book.page_count
+      # book.isbn = first_book.isbn
+      # book.created_by = current_user.id
+
