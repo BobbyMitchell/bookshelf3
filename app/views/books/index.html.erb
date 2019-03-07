@@ -2,4 +2,6 @@
 <h2><% @books.each do |book| %></h2>
 <h2><%= link_to book.title, book_path(book)  %></h2>
 <h2><%= book.author %></h2>
+<%=cl_image_tag(book.photo.path, width: 160, height: 260, crop: :fill)  %>
+
 <% end %>

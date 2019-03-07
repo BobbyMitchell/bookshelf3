@@ -37,6 +37,13 @@ gem "simple_form"
 gem "devise"
 gem 'jquery-rails'
 gem 'font-awesome-sass'
+gem "figaro"
+gem 'cloudinary'
+gem 'autoprefixer-rails'
+gem 'googlebooks'
+gem "attachinary"
+gem "jquery-fileupload-rails"
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
