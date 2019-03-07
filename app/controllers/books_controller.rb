@@ -67,9 +67,9 @@ class BooksController < ApplicationController
     @book.author = @google_book.authors
     @book = Book.where(title: @book.title, author: @book.author).first_or_create do |book|
       book.photo_url = @google_book.image_link
-      book.description = first_book.description
-      book.page_count = first_book.page_count
-      book.isbn = first_book.isbn
+      book.description = @google_book.description
+      book.page_count = @google_book.page_count
+      book.isbn = @google_book.isbn
     end
   end
 
