@@ -67,6 +67,9 @@ class BooksController < ApplicationController
     @book.author = @google_book.authors
     @book = Book.where(title: @book.title, author: @book.author).first_or_create do |book|
       book.photo_url = @google_book.image_link
+      book.description = first_book.description
+      book.page_count = first_book.page_count
+      book.isbn = first_book.isbn
     end
   end
 
@@ -86,10 +89,3 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
   end
 end
-    # first_book.image_link(:zoom => 6)
-    # title and autors changed from search terms to prevent duplication. ie having Tolkien and J R Tolkien being differant authors
-      # book.description = first_book.description
-      # book.page_count = first_book.page_count
-      # book.isbn = first_book.isbn
-      # book.created_by = current_user.id
-
