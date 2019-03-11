@@ -5,9 +5,10 @@ class UserBooksController < ApplicationController
   end
 
   def create
-    raise
     @book = Book.find(params[:book_id])
-    @user_book = UserBook.new(user_book_params)
+    destroy_previous_user_book
+    @user_book = UserBook.new
+    @user_book.have_read = params[:user_book]["have_read"]
     @user_book.book_id = @book.id
     @user_book.user = current_user
     @user_book.save
@@ -18,6 +19,12 @@ class UserBooksController < ApplicationController
   private
 
   def user_book_params
-    params.require(:user_book).permit(:book_id, :have_or_want, :rating, :user_id, :_destroy)
+    params.require(:user_book).permit(:book_id, :have_read, :rating, :user_id)
+  end
+
+  def destroy_previous_user_book
+    if current_user.books.include? @book
+      UserBook.where(user: current_user, book: @book).destroy_all
+    end
   end
 end

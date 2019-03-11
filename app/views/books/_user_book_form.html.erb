@@ -1,20 +1,16 @@
 
 <!-- if statment with simple forms to edit -change from reading list to bookshelf. and another to destroy. When added to bookcae need to do a rating and when destroyed need to remove that rating -->
-
-
-
 <% if current_user.books.exclude? @book  %>
-
 
 
 <!-- this form is for when there is no user_book and adds to either reading list or bookshelf -->
 <%= simple_form_for [@book, @user_book], url: book_user_books_path(@book, @user_book), method: :post  do |f| %>
-<%= f.input :have_or_want, :as => :hidden, :input_html => { :value => true } %>
+<%= f.input :have_read, :as => :hidden, :input_html => { :value => true } %>
 <%= f.submit "Move to Bookcase" %>
 <% end %>
 
 <%= simple_form_for [@book, @user_book], url: book_user_books_path(@book, @user_book), method: :post  do |f| %>
-<%= f.input :have_or_want, :as => :hidden,  :input_html => { :value => false } %>
+<%= f.input :have_read, :as => :hidden,  :input_html => { :value => false } %>
 <%= f.submit "Add to Reading list" %>
 <% end %>
 
