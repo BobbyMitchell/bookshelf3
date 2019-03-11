@@ -1,2 +1,5 @@
 <%= @book.title %>
 <%= @book.author %>
+    <% if user_signed_in? %>
+      <%= render "user_book_form" %>
+    <% end %>
