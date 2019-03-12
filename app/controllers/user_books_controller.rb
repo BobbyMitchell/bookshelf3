@@ -5,6 +5,7 @@ class UserBooksController < ApplicationController
     destroy_previous_user_book
     @user_book = UserBook.new
     @user_book.have_read = params[:user_book]["have_read"]
+    @user_book.rating = params[:user_book]["rating"]
     @user_book.book_id = @book.id
     @user_book.user = current_user
     @user_book.save
