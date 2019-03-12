@@ -1,9 +1,5 @@
 class UserBooksController < ApplicationController
 
-  def new
-
-  end
-
   def create
     @book = Book.find(params[:book_id])
     destroy_previous_user_book

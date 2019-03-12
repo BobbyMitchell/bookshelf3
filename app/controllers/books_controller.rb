@@ -42,7 +42,6 @@ class BooksController < ApplicationController
   end
 
   def destroy
-    raise
   end
 
   def create_user_book
