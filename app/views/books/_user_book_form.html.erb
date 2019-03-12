@@ -2,44 +2,45 @@
 <!-- if statment with simple forms to edit -change from reading list to bookshelf. and another to destroy. When added to bookcae need to do a rating and when destroyed need to remove that rating -->
 
 
-
 <% if current_user.books.exclude? @book  %>
 
 
 
 <!-- this form is for when there is no user_book and adds to either reading list or bookshelf -->
-<%= simple_form_for [@book, @user_book], url: book_user_books_path(@book, @user_book), method: :post  do |f| %>
-<%= f.input :have_read, :as => :hidden, :input_html => { :value => true } %>
-<%= f.submit "Move to Bookcase" %>
+  <%= simple_form_for [@book, @user_book], url: book_user_books_path(@book, @user_book), method: :post  do |f| %>
+    <%= f.input :have_read, :as => :hidden, :input_html => { :value => true } %>
+    <%= f.submit "Move to Bookcase" %>
+  <% end %>
+
+  <%= simple_form_for [@book, @user_book], url: book_user_books_path(@book, @user_book), method: :post  do |f| %>
+    <%= f.input :have_read, :as => :hidden,  :input_html => { :value => false } %>
+    <%= f.submit "Add to Reading list" %>
+  <% end %>
+
+  <!-- If is is on the reading list you can add to bookshelf(changes have_read to true) or can remove from reading list (delete user_book instance) -->
+
+  <% elsif current_user.user_books.find{|f| f.book_id == @book.id}.have_read == false %>
+
+
+  <%= simple_form_for [@book, @user_book], url: book_user_books_path(@book, @user_book), method: :post  do |f| %>
+    <%= f.input :have_read, :as => :hidden, :input_html => { :value => true } %>
+    <%= f.submit "Move to Bookcase" %>
+  <% end %>
+
+  <%= simple_form_for [@book, @user_book], url: book_user_books_path(@book, @user_book), method: :post  do |f| %>
+    <%= f.input :have_read, :as => :hidden, :input_html => { :value => nil } %>
+    <%= f.submit "Remove from Reading List" %>
+  <% end %>
+
+  <% else %>
+
+  <%= simple_form_for [@book, @user_book], url: book_user_books_path(@book, @user_book), method: :post  do |f| %>
+    <%= f.input :have_read, :as => :hidden, :input_html => { :value => nil } %>
+    <%= f.submit "Remove from My Bookshelf" %>
+  <% end %>
 <% end %>
 
-<%= simple_form_for [@book, @user_book], url: book_user_books_path(@book, @user_book), method: :post  do |f| %>
-<%= f.input :have_read, :as => :hidden,  :input_html => { :value => false } %>
-<%= f.submit "Add to Reading list" %>
-<% end %>
-
-<!-- If is is on the reading list you can add to bookshelf(changes have_read to true) or can remove from reading list (delete user_book instance) -->
-<% elsif current_user.user_books.find{|f| f.book_id == @book.id}.have_read == false %>
 
 
-<%= simple_form_for [@book, @user_book], url: book_user_books_path(@book, @user_book), method: :post  do |f| %>
-<%= f.input :have_read, :as => :hidden, :input_html => { :value => true } %>
-<%= f.submit "Move to Bookcase" %>
-<% end %>
-
-<%= simple_form_for [@book, @user_book], url: book_user_books_path(@book, @user_book), method: :post  do |f| %>
-<%= f.input :have_read, :as => :hidden, :input_html => { :value => false } %>
-<%= f.submit "Remove from Reading list" %>
-<% end %>
 
 
-<% else %>
-<!-- It is on the bookshelf so option to remove and option to rate if not done already -->
-
-<%= simple_form_for [@book, @user_book], url: book_user_books_path(@book, @user_book), method: :post  do |f| %>
-<%= f.input :have_read, :as => :hidden,  :input_html => { :checked => true } %>
-<%= f.submit "Remove Book" %>
-<% end %>
-
-
-<% end %>

@@ -7,7 +7,7 @@ class BooksController < ApplicationController
 
   def show
      @user_book = UserBook.new
-     have_read = params[:range][:start].to_time.beginning_of_month if params[:range]
+     # have_read = params[:range][:start].to_time.beginning_of_month if params[:range]
   end
 
   def new
@@ -42,6 +42,7 @@ class BooksController < ApplicationController
   end
 
   def destroy
+    raise
   end
 
   def create_user_book
@@ -84,7 +85,7 @@ class BooksController < ApplicationController
   end
 
   def book_params
-    params.require(:book).permit(:title, :author, user_books_attributes: :have_read )
+    params.require(:book).permit(:title, :author, user_books_attributes: [:id, :have_read] )
   end
 
   def find_book

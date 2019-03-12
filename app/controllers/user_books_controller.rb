@@ -15,11 +15,10 @@ class UserBooksController < ApplicationController
     redirect_to book_path(@book)
   end
 
-
   private
 
   def user_book_params
-    params.require(:user_book).permit(:book_id, :have_read, :rating, :user_id)
+    params.require(:user_book).permit(:id, :book_id, :have_read, :rating, :user_id)
   end
 
   def destroy_previous_user_book
