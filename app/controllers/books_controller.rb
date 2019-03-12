@@ -6,6 +6,8 @@ class BooksController < ApplicationController
   end
 
   def show
+     @user_book = UserBook.new
+     # have_read = params[:range][:start].to_time.beginning_of_month if params[:range]
   end
 
   def new
@@ -42,12 +44,20 @@ class BooksController < ApplicationController
   def destroy
   end
 
+  def create_user_book
+    @user_book = UserBook.new
+    @user_book.user = current_user
+    @user_book.book = @book
+    @user_book.have_read = params[:book][:user_book_attributes]["have_read"]
+    @user_book.save
+  end
+
   private
 
   def find_google_book
-    find_books.each do |book|
+    find_books.each do |book| #google book ingnore the catogary search term so this ensure a fiction novel
       @google_book = book
-      break if book.categories == "Fiction"  # If this break statement is executed...
+      break if book.categories == "Fiction"
     end
   end
 
@@ -73,16 +83,8 @@ class BooksController < ApplicationController
     end
   end
 
-  def create_user_book
-    @user_book = UserBook.new
-    @user_book.user = current_user
-    @user_book.book = @book
-    @user_book.have_read = params[:book][:user_book_attributes]["have_read"]
-    @user_book.save
-  end
-
   def book_params
-    params.require(:book).permit(:title, :author, user_books_attributes: :have_read )
+    params.require(:book).permit(:title, :author, user_books_attributes: [:id, :have_read] )
   end
 
   def find_book
