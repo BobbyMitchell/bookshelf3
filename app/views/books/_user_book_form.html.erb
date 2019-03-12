@@ -24,6 +24,13 @@
     <%= f.input :have_read, :as => :hidden, :input_html => { :value => nil } %>
     <%= f.submit "Remove from My Bookshelf" %>
   <% end %>
+  <% if current_user.user_books.find{|f| f.book_id == @book.id}.rating == nil %>
+    <%= simple_form_for [@book, @user_book], url: book_user_books_path(@book, @user_book), method: :post  do |f| %>
+      <%= f.input :have_read, :as => :hidden, :input_html => { :value => true } %>
+      <%= f.input :rating %>
+      <%= f.submit "Submit Rating" %>
+    <% end %>
+  <% end %>
 <% end %>
 
 
