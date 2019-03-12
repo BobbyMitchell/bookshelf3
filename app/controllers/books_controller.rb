@@ -29,9 +29,9 @@ class BooksController < ApplicationController
     @google_book == nil ? cannot_find : assign_values
     if @book.save
       create_user_book
-      redirect_to book_path(@book)
+      redirect_to book_path(@book) and return
     else
-      render :new
+      redirect_to new_book_path and return
     end
   end
 
